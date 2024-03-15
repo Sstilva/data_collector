@@ -1,0 +1,107 @@
+{
+    "url": "https://kazan.cian.ru/cat.php?deal_type=sale&engine_version=2&offer_type=flat&region=4777&room1=1&room2=1&room3=1&room4=1&room5=1",
+
+    "scraper": {
+        "tag": "a",
+        "class": "_93444fe79c--link--VtWj6"
+    },
+
+    "parser":{
+
+        "title": {
+            "tag": "div",
+            "attr": {
+                "data-name": "MainNewTitle"
+            },
+            "clean": ["h1", "a"]
+        },
+
+        "address": {
+            "tag": "div",
+            "attr": {
+                "data-name": "AddressContainer"
+            },
+            "clean":["a"]
+        },
+
+        "underground": {
+            "tag": "ul",
+            "attr": {
+                "data-name": "UndergroundList"
+            },
+            "clean":["a", "span"]
+        },
+
+        "factoids": {
+            "tag": "div",
+            "attr": {
+                "data-name": "ObjectFactoids"
+            },
+            "clean":[]
+        },
+
+        "desc": {
+            "tag": "div",
+            "attr": {
+                "data-name": "Description"
+            },
+            "clean":[]
+        },
+
+        "summary": {
+            "tag": "div",
+            "attr": {
+                "data-name": "OfferSummaryInfoGroup"
+            },
+            "clean":[]
+        },
+
+        "summary": {
+            "tag": "div",
+            "attr": {
+                "data-name": "OfferSummaryInfoGroup"
+            },
+            "clean":[]
+        },
+
+        "price": {
+            "tag": "div",
+            "attr": {
+                "data-name": "PriceInfo"
+            },
+            "clean":[]
+        },
+
+        "builder-premium": {
+            "tag": "div",
+            "attr": {
+                "data-name": "NewbuildingPremiumBuilderLayout"
+            },
+            "clean":[]
+        },
+
+        "builder-premium": {
+            "tag": "div",
+            "attr": {
+                "data-name": "NewbuildingPremiumBuilderLayout"
+            },
+            "clean":[]
+        },
+
+        "builder": {
+            "tag": "div",
+            "attr": {
+                "data-name": "DeveloperLayout"
+            },
+            "clean":[]
+        },
+
+        "newbuilding": {
+            "tag": "div",
+            "attr": {
+                "data-name": "NewbuildingSpecifications"
+            },
+            "clean":[]
+        }
+    }
+}
