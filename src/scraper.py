@@ -8,8 +8,7 @@ class Scraper(object):
         self.cfg = config
 
     def scrape_page(self, url: str) -> list:
-        '''
-        Scrape all offer pages from selected page.
+        '''Scrape all offer pages from selected page.
             Arguments:
                 url (str): URL of main page.
             Returns:
@@ -18,27 +17,25 @@ class Scraper(object):
         try:
             links = self._get_links(url)
             
-            return [self._extract_offer(link) for link in links]
+            return [(self._extract_offer(link), link) for link in links]
             
         except Exception as e:
             print(e)
 
     def _get_links(self, url: str) -> list:
-        '''
-        Get links of offer pages from main page.
+        '''Get links of offer pages from main page.
             Returns:
                 _ (list): List of strings - URLs of offer pages. 
         '''
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html5lib')
-        links = soup.find_all(self.cfg['tag'], class_=self.cfg['class'])
+        links = soup.find_all(self.cfg['tag'], self.cfg['attr'])
         
-        return [ link['href'] for link in links ]
+        return { link.find('a', href=True)['href'] for link in links }
 
     @staticmethod
     def _extract_offer(link):
-        '''
-        Scrape everything offer page.
+        '''Scrape everything from offer page.
             Arguments:
                 link (str): URL of offer page.
             Returns:
@@ -46,7 +43,7 @@ class Scraper(object):
         '''
         offer = requests.get(link)
         soup = BeautifulSoup(offer.content, 'html5lib')
-        # time.sleep(3) # To avoid IP ban.
+        time.sleep(5) # To avoid IP ban.
 
         return soup
 

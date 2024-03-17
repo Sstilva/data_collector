@@ -18,11 +18,15 @@ def main():
 
     for page in range(1, max_page_count):
         current_page_url = URL + f'&p={page}'
-        for offer in scraper.scrape_page(current_page_url):
-            # print(offer.prettify())
-            parser.parse_offer(offer)
+        for count, offer in enumerate(scraper.scrape_page(current_page_url)):
+            # Put another sleep in different place to check if process gets banned.
+            print(f"\nOffer number {count}\n{offer[1]}\n")
 
-            break
+            for key, value in parser.parse_offer(offer[0]).items():
+                print(f'{key}:\n{value}\n')
+            # print(offer[0])
+
+            # break
 
 
 if __name__ == "__main__":
