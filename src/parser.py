@@ -12,7 +12,6 @@ class Parser(object):
             Returns:
                 processed_offer (dict): ordered dictionary with named parsed offer parts.
         '''
-
         processed_offer = dict()
 
         title = lambda x: x[0].split(', ')
