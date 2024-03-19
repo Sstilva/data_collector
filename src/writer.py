@@ -48,15 +48,16 @@ class Writer(object):
             row_writer = csv.writer(csv_file, delimiter=',')
             row_writer.writerow(concat_values)
 
-    def _format_data(self, offer: dict) -> list:
+    def _format_data(self, offer: list) -> list:
         data = [
-                self._form_title(offer['title']), 
-                self._form_address(offer['address']),
-                self._form_dict(self.stations, offer['underground'], ' мин.'),
-                self._form_dict(self.factoids, offer['factoids'], '\xa0м²'),
-                self._form_dict(self.summary, offer['summary'], '\xa0м'),
-                self._skip_form(offer['price']),
-                self._form_seller(self.sellers, list(offer.items())[-4:])
+                self._form_title(offer[0]), 
+                self._form_address(offer[1]),
+                self._form_dict(self.stations, offer[2], ' мин.'),
+                self._form_dict(self.factoids, offer[3], '\xa0м²'),
+                self._skip_form(offer[4]),
+                self._form_dict(self.summary, offer[5], '\xa0м'),
+                self._skip_form(offer[6]),
+                self._form_seller(self.sellers, offer[-4:])
         ]
 
         return data
@@ -83,10 +84,10 @@ class Writer(object):
         stop = False
 
         for seller in raw:
-            if (type(seller[1]) is not list) and (not stop):
+            if (seller) and (not stop):
                 for _ in headers:
-                    if _ in seller[1].keys():
-                        clean.append(seller[1][_])
+                    if _ in seller.keys():
+                        clean.append(seller[_])
                         stop = True
                     else:
                         clean.append(None)

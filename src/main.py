@@ -1,61 +1,65 @@
 import json
+import time
+from bs4 import BeautifulSoup
 
 from scraper import Scraper
 from parser import Parser
 from writer import Writer
+from config_init import Config
+
+
+def save(cfg: dict, page_number: int):
+    URL = cfg['URL']
+    scraper = cfg['scraper']
+    parser = cfg['parser']
+    writer = cfg['writer']
+    max_page_count = cfg['max_page_count']
+
+    current_page_url = URL + f'&p={page_number}'
+    print(f"Page number: {page_number}") # Debug purposes.
+
+    try:
+        for count, offer in enumerate(scraper.scrape_page(current_page_url)):
+            try:
+                writer.save_to_file(parser.parse_offer(offer[0]))
+            except ConnectionResetError:
+                print("Offer error\nSleeping...")
+                print(offer[1])
+                time.sleep(15)
+
+                return page_number 
+
+    except TypeError as type_error:
+        print('Error while scraping main page links\nSleeping...') 
+        # print(parser.parse_offer(offer[0]))
+        print(type_error)
+        time.sleep(15)
+
+        return page_number
+
+    except ConnectionResetError as con_error:
+        print('Connection Error')
+        raise con_error
+
+    except Exception as e:
+        print(e)
+        raise e
+
+    return page_number + 1
 
 
 def main():
-    with open('config.json') as json_file:
-        cfg = json.load(json_file)
 
-    URL = cfg['url']
-    file_name = "test_data"
-    file_header = [
-            'Rooms', 'Address', 
+    cfg = Config('config.json', 'test_data', 3).get()
+    max_page_count = cfg['max_page_count']
+    page_stop = 1 # To start iteration.
 
-            'M_Aviastroitelnaya', 'M_Severny Vokzal',
-            'M_Yashlek', 'M_Kozya Sloboda',
-            'M_Kremlyovskaya', 'M_Ploshchad Tukaya',
-            'M_Sukonnaya Sloboda', 'M_Ametyevo',
-            'M_Gorki', 'M_Prospekt Pobedy',
-            'M_Dubravnaya',
+    while True:
+        if (page_stop != 0) and (page_stop != max_page_count):
+            page_stop = save(cfg, page_stop)
+        else:
+            break
 
-            'Total Area', 'Living Area',
-            'Kitchen Area', 'Floor',
-            'Construction Year', 'Completion Year',
-            'Building', 'Finishing',
-
-            'Type of Housing', 'Bathroom',
-            'Ceilings', 'Balcony/Loggia',
-            'Windows View', 'Renovation',
-            'Construction Series', 'Elevators Count',
-            'Construction Type', 'Flooring type',
-            'Parking', 'Entrances',
-            'Heating', 'Building AR',
-
-            'Price',
-
-            'Builder-Premium', 'Builder',
-            'Agent', 'Agency'
-    ]
-
-    scraper = Scraper(cfg['scraper'])
-    parser = Parser(cfg['parser'])
-    writer = Writer(file_header, file_name)
-
-    max_page_count = 54 # 54
-
-    for page in range(1, max_page_count):
-        current_page_url = URL + f'&p={page}'
-        print(f"Page number: {page}")
-
-        for count, offer in enumerate(scraper.scrape_page(current_page_url)):
-            # writer.save_to_file(parser.parse_offer(offer[0]))
-            print("o")
-
-            # for key, value in parser.parse_offer(offer[0]).items():
-            #     print(f'{key}:\n{value}\n')
 
 
 if __name__ == "__main__":

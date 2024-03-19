@@ -20,7 +20,8 @@ class Scraper(object):
             return [(self._extract_offer(link), link) for link in links]
             
         except Exception as e:
-            print(e)
+            print('Faced errors during links scraping')
+            raise e
 
     def _get_links(self, url: str) -> list:
         '''Get links of offer pages from main page.
