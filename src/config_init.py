@@ -46,7 +46,7 @@ class Config(object):
         self.parser = Parser(cfg['parser'])
         self.writer = Writer(file_header, file_name)
 
-        self.max_page_count = page_count # 54
+        self.max_page_count = page_count
 
     def get(self):
         representation = {

@@ -20,20 +20,13 @@ def save(cfg: dict, page_number: int):
 
     try:
         for count, offer in enumerate(scraper.scrape_page(current_page_url)):
-            try:
-                writer.save_to_file(parser.parse_offer(offer[0]))
-            except ConnectionResetError:
-                print("Offer error\nSleeping...")
-                print(offer[1])
-                time.sleep(15)
-
-                return page_number 
+            writer.save_to_file(parser.parse_offer(offer[0]))
 
     except TypeError as type_error:
-        print('Error while scraping main page links\nSleeping...') 
-        # print(parser.parse_offer(offer[0]))
+        print('Error while scraping\nSleeping...') 
+        # print(offer[0].prettify())
         print(type_error)
-        time.sleep(15)
+        time.sleep(60)
 
         return page_number
 
@@ -49,9 +42,12 @@ def save(cfg: dict, page_number: int):
 
 
 def main():
+    cfg_path = 'config.json' 
+    file_name = 'test_data' 
+    max_page_count = 54
 
-    cfg = Config('config.json', 'test_data', 3).get()
-    max_page_count = cfg['max_page_count']
+    cfg = Config(cfg_path, file_name, max_page_count).get()
+
     page_stop = 1 # To start iteration.
 
     while True:

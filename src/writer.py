@@ -50,14 +50,14 @@ class Writer(object):
 
     def _format_data(self, offer: list) -> list:
         data = [
-                self._form_title(offer[0]), 
-                self._form_address(offer[1]),
-                self._form_dict(self.stations, offer[2], ' мин.'),
-                self._form_dict(self.factoids, offer[3], '\xa0м²'),
-                self._skip_form(offer[4]),
-                self._form_dict(self.summary, offer[5], '\xa0м'),
-                self._skip_form(offer[6]),
-                self._form_seller(self.sellers, offer[-4:])
+            self._form_title(offer[0]), 
+            self._form_address(offer[1]),
+            self._form_dict(self.stations, offer[2], ' мин.'),
+            self._form_dict(self.factoids, offer[3], '\xa0м²'),
+            self._skip_form(offer[4]),
+            self._form_dict(self.summary, offer[5], '\xa0м'),
+            self._skip_form(offer[6]),
+            self._form_seller(self.sellers, offer[-4:])
         ]
 
         return data
