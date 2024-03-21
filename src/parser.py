@@ -6,6 +6,12 @@ class Parser(object):
         self.cfg = config
 
     def parse_offer(self, offer: BeautifulSoup) -> list:
+        '''Parses data from scraped offer into filtered list.
+            Arguments:
+                offer (bs4.BeautifulSoup): Scraped HTML offer. 
+            Returns:
+                filtered (list): List of parsed data separated by tags.
+        '''
         title = lambda x: x[0].split(', ')
         address = lambda x: ''.join(x).split(', ')[:-1]
         under = lambda x: dict(zip(*[iter(x)]*2))

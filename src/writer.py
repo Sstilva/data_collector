@@ -37,11 +37,14 @@ class Writer(object):
         ]
 
     def init_header(self, file_header: list):
+        '''Creates file and writes header line to it.'''
         with open(f"{self.path}_{self.date_today}.csv", 'w', newline='') as csv_file:
             row_writer = csv.writer(csv_file, delimiter=',')
             row_writer.writerow(file_header)
 
-    def save_to_file(self, offer: dict):
+    def save_to_file(self, offer: list):
+        '''Concatenates formatted data parts into list and
+        appends resulting offer to file.'''
         concat_values = [x for xs in self._format_data(offer) for x in xs]
 
         with open(f"{self.path}_{self.date_today}.csv", 'a', newline='') as csv_file:
@@ -49,6 +52,7 @@ class Writer(object):
             row_writer.writerow(concat_values)
 
     def _format_data(self, offer: list) -> list:
+        '''Formats parts of offer using unique methods for each.'''
         data = [
             self._form_title(offer[0]), 
             self._form_address(offer[1]),
