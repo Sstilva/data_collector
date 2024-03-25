@@ -1,12 +1,10 @@
 import requests 
-import time
 from bs4 import BeautifulSoup 
 
 
 class Scraper(object):
     def __init__(self, config: dict):
         self.cfg = config
-        self.timer = time.time()
 
     def scrape_page(self, url: str) -> list:
         '''Scrape all offer pages from selected page.
@@ -45,8 +43,6 @@ class Scraper(object):
         offer = requests.get(link)
         soup = BeautifulSoup(offer.content, 'html5lib')
         time.sleep(15) # To avoid IP ban.
-        print(link, int(time.time() - self.timer), 'sec.')
-        self.timer = time.time()
 
         return soup
 

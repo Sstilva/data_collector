@@ -42,7 +42,7 @@ def save(cfg: dict, page_number: int):
 
 
 def main():
-    cfg_path = 'config.json' 
+    cfg_path = '../configs/config.json' 
     file_name = '../output/test_data' 
     max_page_count = 54
 
