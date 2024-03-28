@@ -14,6 +14,12 @@ Go into repo dir
 cd data_collector
 ```
 
+Extract configuration files from archive
+
+```bash
+tar xf configs.tar.xz
+```
+
 ### Using Docker
 
 Build Docker image
@@ -25,7 +31,7 @@ docker build -t repp:data_collector .
 Run Docker container
 
 ```bash
-docker run --name data_collector repp:data_collector
+docker run --name data_collector repp:data_collector configs/_path_to_chosen_config_json_file_
 ```
 
 To extract collected data from container use
@@ -45,7 +51,7 @@ pip install -r requirements.txt
 Run python app
 
 ```bash
-python ./src/main.py
+python app configs/_path_to_chosen_config_json_file_
 ```
 
 Collected data is located in `data_collector/output/` directory

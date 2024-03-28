@@ -6,4 +6,4 @@ RUN pip install -r /usr/src/app/requirements.txt
 
 COPY . /
 RUN mkdir /output
-CMD [ "python" , "src/main.py" ]
+ENTRYPOINT [ "python" , "app" ]

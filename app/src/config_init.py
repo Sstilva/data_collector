@@ -1,8 +1,8 @@
 import json
 
-from scraper import Scraper
-from parser import Parser
-from writer import Writer
+from .scraper import Scraper
+from .parser import Parser
+from .writer import Writer
 
 
 class Config(object):

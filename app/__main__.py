@@ -1,11 +1,9 @@
 import json
 import time
+import argparse
 from bs4 import BeautifulSoup
 
-from scraper import Scraper
-from parser import Parser
-from writer import Writer
-from config_init import Config
+from src import Scraper, Parser, Writer, Config
 
 
 def save(cfg: dict, page_number: int):
@@ -41,9 +39,8 @@ def save(cfg: dict, page_number: int):
     return page_number + 1
 
 
-def main():
-    cfg_path = '../configs/config.json' 
-    file_name = '../output/test_data' 
+def main(cfg_path: str):
+    file_name = 'output/test_data' 
     max_page_count = 54
 
     cfg = Config(cfg_path, file_name, max_page_count).get()
@@ -58,5 +55,14 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+
+    class Namespace(object):
+        pass
+
+    ns = Namespace()
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument('config_path')
+    args = argparser.parse_args(namespace=ns)
+
+    main(ns.config_path)
 
