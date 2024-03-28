@@ -31,7 +31,7 @@ docker build -t repp:data_collector .
 Run Docker container
 
 ```bash
-docker run --name data_collector repp:data_collector configs/_path_to_chosen_config_json_file_
+docker run --name data_collector repp:data_collector configs/path_to_chosen_config_json_file
 ```
 
 To extract collected data from container use
@@ -51,7 +51,7 @@ pip install -r requirements.txt
 Run python app
 
 ```bash
-python app configs/_path_to_chosen_config_json_file_
+python app configs/path_to_chosen_config_json_file
 ```
 
 Collected data is located in `data_collector/output/` directory
