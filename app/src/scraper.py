@@ -5,7 +5,8 @@ from bs4 import BeautifulSoup
 
 class Scraper(object):
     def __init__(self, config: dict):
-        self.cfg = config
+        self.cfg_link = config['link']
+        self.cfg_count = config['offer_count']
 
     def scrape_page(self, url: str) -> list:
         '''Scrape all offer pages from selected page.
@@ -15,9 +16,9 @@ class Scraper(object):
                 _ (list): List of scraped offer pages (soup objects).
         '''
         try:
-            links = self._get_links(url)
+            links, offer_count = self._get_links(url)
             
-            return [(self._extract_offer(link), link) for link in links]
+            return [self._extract_offer(_), _, offer_count for _ in links]
             
         except Exception as e:
             print('Faced errors during links scraping')
@@ -30,11 +31,13 @@ class Scraper(object):
         '''
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html5lib')
-        links = soup.find_all(self.cfg['tag'], self.cfg['attr'])
+        links = soup.find_all(self.cfg_link['tag'], self.cfg_link['attr'])
+        offer_count = soup.find(self.cfg_count['tag'], self.cfg_count['attr'])
+        offer_count = int(offer_count.text.split(' ')[1])
         
-        return { link.find('a', href=True)['href'] for link in links }
+        return { _.find('a', href=True)['href'] for _ in links }, offer_count
 
-    def _extract_offer(self, link):
+    def _extract_offer(self, link: str):
         '''Scrape everything from offer page.
             Arguments:
                 link (str): URL of offer page.

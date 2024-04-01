@@ -39,12 +39,14 @@ class Config(object):
             'Price',
 
             'Builder-Premium', 'Builder',
-            'Agent', 'Agency'
+            'Agent', 'Agency',
+
+            'URL'
         ]
 
         self.scraper = Scraper(cfg['scraper'])
         self.parser = Parser(cfg['parser'])
-        self.writer = Writer(file_header, file_name)
+        self.writer = CSVWriter(cfg['writer'], file_header, file_name)
 
         self.max_page_count = page_count
 

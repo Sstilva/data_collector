@@ -2,20 +2,13 @@ from datetime import datetime
 import csv
 
 
-class Writer(object):
-    def __init__(self, file_header: list, path: str):
+class CSVWriter(object):
+    def __init__(self, config: dict, file_header: list, path: str):
         self.date_today = datetime.today().strftime('%Y-%m-%d')
         self.path = path
         self.init_header(file_header)
 
-        self.stations = [
-            'Авиастроительная', 'Северный вокзал',
-            'Яшьлек', 'Козья слобода',
-            'Кремлёвская', 'Площадь Габдуллы Тукая',
-            'Суконная слобода', 'Аметьево',
-            'Горки', 'Проспект Победы',
-            'Дубравная'
-        ]
+        self.stations = config['underground']
         self.factoids = [
             'Общая площадь', 'Жилая площадь',
             'Площадь кухни', 'Этаж',
@@ -42,14 +35,15 @@ class Writer(object):
             row_writer = csv.writer(csv_file, delimiter=',')
             row_writer.writerow(file_header)
 
-    def save_to_file(self, offer: list):
+    def save_to_file(self, offer: list, link: str):
         '''Concatenates formatted data parts into list and
         appends resulting offer to file.'''
-        concat_values = [x for xs in self._format_data(offer) for x in xs]
+        values = [x for xs in self._format_data(offer) for x in xs]
+        values.append(link)
 
         with open(f"{self.path}_{self.date_today}.csv", 'a', newline='') as csv_file:
             row_writer = csv.writer(csv_file, delimiter=',')
-            row_writer.writerow(concat_values)
+            row_writer.writerow(values)
 
     def _format_data(self, offer: list) -> list:
         '''Formats parts of offer using unique methods for each.'''
