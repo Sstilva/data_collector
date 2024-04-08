@@ -4,9 +4,10 @@ from bs4 import BeautifulSoup
 
 
 class Scraper(object):
-    def __init__(self, config: dict):
+    def __init__(self, config: dict, timepause: int):
         self.cfg_link = config['link']
         self.cfg_count = config['offer_count']
+        self.timepause = timepause
 
     def scrape_page(self, url: str) -> list:
         '''Scrape all offer pages from selected page.
@@ -29,7 +30,7 @@ class Scraper(object):
         soup = BeautifulSoup(page.content, 'html5lib')
         offer_count = soup.find(self.cfg_count['tag'], self.cfg_count['attr'])
         offer_count = int(offer_count.text.split(' ')[1])
-        time.sleep(5) # To avoid IP ban.
+        time.sleep(self.timepause) # To avoid IP ban.
         
         return offer_count
 
@@ -53,7 +54,7 @@ class Scraper(object):
         '''
         offer = requests.get(link)
         soup = BeautifulSoup(offer.content, 'html5lib')
-        time.sleep(10) # To avoid IP ban.
+        time.sleep(self.timepause) # To avoid IP ban.
 
         return soup
 
