@@ -1,0 +1,108 @@
+{
+    "scraper": {
+        "link": {
+            "tag": "div",
+            "attr": {
+                "data-name": "LinkArea"
+            }
+        },
+
+        "offer_count": {
+            "tag": "div",
+            "attr": {
+                "data-name": "SummaryHeader"
+            }
+        }
+    },
+
+    "parser": {
+        "title": {
+            "tag": "div",
+            "attr": {
+                "data-name": "MainNewTitle"
+            }
+        },
+
+        "address": {
+            "tag": "div",
+            "attr": {
+                "data-name": "AddressContainer"
+            }
+        },
+
+        "underground": {
+            "tag": "ul",
+            "attr": {
+                "data-name": "UndergroundList"
+            }
+        },
+
+        "factoids": {
+            "tag": "div",
+            "attr": {
+                "data-name": "ObjectFactoids"
+            }
+        },
+
+        "desc": {
+            "tag": "div",
+            "attr": {
+                "data-name": "Description"
+            }
+        },
+
+        "summary": {
+            "tag": "div",
+            "attr": {
+                "data-name": "OfferSummaryInfoGroup"
+            }
+        },
+
+        "price": {
+            "tag": "div",
+            "attr": {
+                "data-name": "PriceInfo"
+            }
+        },
+
+        "builder-premium": {
+            "tag": "div",
+            "attr": {
+                "data-name": "NewbuildingPremiumBuilderLayout"
+            }
+        },
+
+        "builder": {
+            "tag": "div",
+            "attr": {
+                "data-name": "DeveloperLayout"
+            }
+        },
+
+        "agent": {
+            "tag": "div",
+            "attr": {
+                "data-name": "AgentInfoLayout"
+            }
+        },
+
+        "agency": {
+            "tag": "div",
+            "attr": {
+                "data-name": "AuthorBrandingAside"
+            }
+        },
+        
+        "homeowner": {
+            "tag": "div",
+            "attr": {
+                "data-name": "HomeownerLayout"
+            }
+        }
+    },
+    
+    "writer": {
+        "underground": 
+            [ "Авиастроительная", "Северный вокзал", "Яшьлек", "Козья слобода", "Кремлёвская", "Площадь Габдуллы Тукая", "Суконная слобода", "Аметьево", "Горки", "Проспект Победы", "Дубравная" ]
+    } 
+}
