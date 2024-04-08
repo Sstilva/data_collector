@@ -33,6 +33,7 @@ class Parser(object):
                 "builder": seller, 
                 "agent": seller,
                 "agency": seller,
+                "homeowner": seller
         }
         filtered = []
         
@@ -45,7 +46,7 @@ class Parser(object):
         return filtered
 
     def _extract_tag(self, offer: BeautifulSoup):
-        '''Returns selected HTML tag from passed offer.
+        '''Returns selected HTML tag content from passed offer.
             Arguments:
                 offer (bs4.BeautifulSoup): scraped offer object.
             Returns:

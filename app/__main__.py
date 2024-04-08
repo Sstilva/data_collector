@@ -3,7 +3,7 @@ import time
 import argparse
 from bs4 import BeautifulSoup
 
-from src import Scraper, Parser, CSVWriter, Config
+from src import Config
 
 
 def parse_save(cfg: dict):
@@ -15,22 +15,22 @@ def parse_save(cfg: dict):
     scraper = cfg['scraper']
     parser = cfg['parser']
     writer = cfg['writer']
-    max_page_count = cfg['max_page_count']
 
-    count_of_offers_on_page = 28
-    page_number = 1 # To start iteration.
-    end_page_number = 0
+    num_offers_on_page = 28
+    # To start iteration.
+    page_number = 1 
+    max_page_number = scraper.get_offers_count(URL)
 
     while True:
         try:
             current_page_url = URL + f'&p={page_number}'
-            if page_number > end_page_number:
+            print(page_number)
+
+            if page_number > max_page_number:
                 break
 
             for offer in scraper.scrape_page(current_page_url):
-                writer.save_to_file(parser.parse_offer(offer[0]))
-                end_page_number = offer[2] / count_of_offers_on_page + 1
-                page_number += 1
+                writer.save_offer(parser.parse_offer(offer[0]), offer[1])
 
         # WAF rate limit error exception.
         except TypeError as type_error:
@@ -38,17 +38,18 @@ def parse_save(cfg: dict):
             print(type_error)
             time.sleep(60)
 
-            continue
-
         # Internet connection error.
         except ConnectionResetError as con_error:
             print('Connection Error')
             raise con_error
+        
+        else:
+            page_number += 1
 
 
 def main(cfg_path: str):
     file_name = 'output/test_data' 
-    cfg = Config(cfg_path, file_name, max_page_count).get()
+    cfg = Config(cfg_path, file_name).get()
 
     parse_save(cfg)
 
