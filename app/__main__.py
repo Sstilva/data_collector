@@ -1,5 +1,6 @@
 import time
 import argparse
+from bs4 import BeautifulSoup 
 
 from src import Config
 
@@ -67,9 +68,16 @@ def parse_save(cfg: dict, timeout: int):
 
             for offer, link in scraper.scrape_page(current_page_url):
                 if db_writer:
-                    db_writer.save_offer(parser.parse_offer(offer), link)
+                    db_writer.save_offer(parser.parse_offer(offer, link), link)
                 if csv_writer:
                     csv_writer.save_offer(parser.parse_offer(offer), link)
+
+            # DEBUG from local HTML file to speed up debugging process.
+            # html_file = open('offer_example.html', 'r')
+            # offer = BeautifulSoup(html_file, 'html5lib')
+            # link = 'https://kazan.cian.ru/sale/flat/300744041/'
+            # parser.parse_offer(offer, link)
+            # db_writer.save_offer(parser.parse_offer(offer, link), link)
 
         # WAF rate limit error exception.
         except TypeError as type_error:

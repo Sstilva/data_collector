@@ -5,7 +5,7 @@ class Parser(object):
     def __init__(self, config: dict):
         self.cfg = config
 
-    def parse_offer(self, offer: BeautifulSoup) -> list:
+    def parse_offer(self, offer: BeautifulSoup, link) -> list:
         '''Parses data from scraped offer into filtered list.
             Arguments:
                 offer (bs4.BeautifulSoup): Scraped HTML offer. 
@@ -14,8 +14,7 @@ class Parser(object):
         '''
         title = lambda x: x[0].split(', ')
         address = lambda x: ''.join(x).split(', ')[:-1]
-        under = lambda x: dict(zip(*[iter(x)]*2))
-        factoids = under
+        factoids = lambda x: dict(zip(*[iter(x)]*2))
         desc = lambda x: x[0].replace('\n', ' ')
         summary = lambda x: dict(zip(*[iter(x[1:])]*2))
         price = lambda x: x[0].replace('\xa0', '').replace('₽', '')
@@ -24,7 +23,7 @@ class Parser(object):
         process_part = {
                 "title": title,
                 "address": address,
-                "underground": under,
+                "underground": self._under,
                 "factoids": factoids,
                 "desc": desc,
                 "summary": summary,
@@ -37,9 +36,12 @@ class Parser(object):
         }
         filtered = []
         
-        for name, tag  in zip(self.cfg, self._extract_tag(offer)):
+        for name, tag in zip(self.cfg, self._extract_tag(offer)):
             if tag:
-                filtered.append(process_part[name](tag.find_all(text=True)))
+                if name == 'underground':
+                    filtered.append(process_part[name](tag))
+                else:
+                    filtered.append(process_part[name](tag.find_all(text=True)))
             else:
                 filtered.append(None)
 
@@ -61,3 +63,15 @@ class Parser(object):
             finally:
                 yield tag
     
+    @staticmethod
+    def _under(tag):
+        w, c = 'walk', 'car'
+        pic = tag.find_all('svg')
+        icons = [w if _.find('g') else c for i, _ in enumerate(pic) if i%2 != 0]
+        station_time = dict(zip(*[iter(tag.find_all(text=True))]*2))
+
+        for icon, key in zip(icons, station_time.keys()):
+            station_time[key] += icon
+        
+        return station_time
+

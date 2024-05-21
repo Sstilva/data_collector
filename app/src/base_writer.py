@@ -32,7 +32,7 @@ class BaseWriter(object):
             self._form_timestamp,
             self._form_title(offer[0]), 
             self._form_address(offer[1]),
-            self._form_dict(self.stations, offer[2], ' мин.'),
+            self._form_dict(self.stations, offer[2], 'мин.'),
             self._form_dict(self.factoids, offer[3], '\xa0м²'),
             self._skip_form(offer[4]),
             self._form_dict(self.summary, offer[5], '\xa0м'),
@@ -46,7 +46,7 @@ class BaseWriter(object):
 
     _form_id = lambda self, x: list([x.split('/')[-2]]) 
     _form_timestamp = list([datetime.today().strftime(r'%Y-%m-%d %H:%M:%S')])
-    _form_title = lambda self, x: list([x[0]])
+    _form_title = lambda self, x: list([x[0].replace('Продается ', '')])
     _form_address = lambda self, x: list([' '.join(x)])
     _skip_form = lambda self, x: list([x])
 

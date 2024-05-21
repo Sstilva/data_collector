@@ -54,7 +54,7 @@
         "summary": {
             "tag": "div",
             "attr": {
-                "data-name": "OfferSummaryInfoGroup"
+                "data-name": "OfferSummaryInfoLayout"
             }
         },
 

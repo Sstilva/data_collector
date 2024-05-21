@@ -19,7 +19,7 @@ class DBWriter(BaseWriter):
             with conn.cursor() as cur:
                 try:
                     cur.execute(
-                        """INSERT INTO offers (
+                        """INSERT INTO offers_new (
                             id, rooms, address, 
                             m_aviastroitelnaya, m_severny_vokzal, m_yashlek,
                             m_kozya_sloboda, m_kremlyovskaya, m_ploshchad_tukaya,
